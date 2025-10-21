@@ -3,11 +3,10 @@ package main
 import (
     "fmt"
 
-    "plugins/class/domain"
+    "plugins/class/common"
 )
 
-func SayHello() {
-    student := domain.ClassStudent{ Name: "Joseph", Number: "S001" }
-    fmt.Println(student.Number, student.Name)
+func SayHello(student common.Student) {
+    fmt.Println(student.GetNumber(), student.GetName())
 }
 

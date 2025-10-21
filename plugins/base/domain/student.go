@@ -5,6 +5,13 @@ type BaseStudent struct {
 	Number string
 }
 
+func NewBaseStudent(name, number string) *BaseStudent {
+    return &BaseStudent{
+        Name: name,
+        Number: number,
+    }
+}
+
 func (student *BaseStudent) GetName() string {
 	return student.Name
 }
