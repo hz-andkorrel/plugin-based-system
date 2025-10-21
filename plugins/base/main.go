@@ -1,7 +1,8 @@
 package main
 
 import (
-	"fmt"
+    "plugin"
+
 	"plugins/base/domain"
 )
 
@@ -13,10 +14,7 @@ func CreateDataStore() []domain.BaseStudent {
 }
 
 func main() {
-	students := CreateDataStore()
-
-	fmt.Println("Student Records:")
-	for _, student := range students {
-		fmt.Printf("Name: %s, Number: %s\n", student.GetName(), student.GetNumber())
-	}
+    helloPlugin, _ := plugin.Open("./plugins/hello.so")
+    sayHello, _ := helloPlugin.Lookup("SayHello")
+    sayHello.(func())()
 }
