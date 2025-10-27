@@ -1,23 +1,24 @@
 package main
 
 import (
-    "plugin"
+	"plugin"
 
-    "plugins/base/common"
 	"plugins/base/domain"
+
+	"plugins/common"
 )
 
 func CreateDataStore() []common.Student {
 	return []common.Student{
-        domain.NewBaseStudent("Alice", "S001"),
-        domain.NewBaseStudent("Bob", "S002"),
+		domain.NewBaseStudent("Alice", "S001"),
+		domain.NewBaseStudent("Bob", "S002"),
 	}
 }
 
 func main() {
-    students := CreateDataStore()
+	students := CreateDataStore()
 
-    helloPlugin, _ := plugin.Open("./plugins/hello.so")
-    sayHello, _ := helloPlugin.Lookup("SayHello")
-    sayHello.(func(common.Student))(students[0])
+	helloPlugin, _ := plugin.Open("./plugins/hello.so")
+	sayHello, _ := helloPlugin.Lookup("SayHello")
+	sayHello.(func(common.Student))(students[0])
 }

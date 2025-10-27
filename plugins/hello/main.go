@@ -1,12 +1,11 @@
 package main
 
 import (
-    "fmt"
+	"fmt"
 
-    "plugins/class/common"
+	"plugins/common"
 )
 
 func SayHello(student common.Student) {
-    fmt.Println(student.GetNumber(), student.GetName())
+	fmt.Println(student.GetNumber(), student.GetName())
 }
-
