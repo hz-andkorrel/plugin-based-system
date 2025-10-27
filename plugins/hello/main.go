@@ -1,11 +1,15 @@
 package main
 
 import (
-	"fmt"
-
 	"plugins/common"
 )
 
-func SayHello(student common.Student) {
-	fmt.Println(student.GetNumber(), student.GetName())
+type Plugin struct{}
+
+func NewPlugin() common.Plugin {
+	return &Plugin{}
+}
+
+func (plugin *Plugin) Hello() string {
+	return "HelloPlugin"
 }

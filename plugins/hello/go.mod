@@ -1,4 +1,4 @@
-module plugins/class
+module plugins/hello
 
 go 1.25.0
 
