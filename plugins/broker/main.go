@@ -1,18 +1,20 @@
 package main
 
 import (
-	"fmt"
 	"plugins/broker/domain"
 )
 
 // The entry point of the application.
 // It uses the PluginRegistry to load and interact with plugins.
-// In the current iteration, this means loading a single plugin and calling its Hello method.
+// First, the router and plugin registry are created.
+// The plugins are auto-discovered from the plugins directory before being initialized.
+// Finally, the router is started to listen for incoming requests.
 func main() {
+	router := domain.NewRouteManager()
+
 	registry := domain.NewPluginRegistry()
 	registry.AutoDiscoverPlugins()
+	registry.InitializePlugins(router)
 
-	for _, plugin := range registry.Plugins {
-		fmt.Println("Loaded plugin:", plugin.Hello())
-	}
+	router.Run(":8080")
 }

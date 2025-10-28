@@ -1,5 +1,5 @@
 package common
 
 type Plugin interface {
-	Hello() string
+	RegisterRoutes(router Router)
 }

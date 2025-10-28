@@ -10,16 +10,16 @@ import (
 // PluginRegistry represents a collection of plugins available in the system.
 // It manages the lifecycle and metadata of each plugin.
 type PluginRegistry struct {
-	Plugins         []common.Plugin
 	PluginDirectory string
+	Plugins         []common.Plugin
 }
 
 // The PluginRegistry shall be initialized with an empty list of plugins.
 // The plugin directory is set to a predefined constant.
 func NewPluginRegistry() *PluginRegistry {
 	return &PluginRegistry{
-		Plugins:         []common.Plugin{},
 		PluginDirectory: "./plugins/",
+		Plugins:         []common.Plugin{},
 	}
 }
 
@@ -46,5 +46,12 @@ func (registry *PluginRegistry) AutoDiscoverPlugins() {
 		if !file.IsDir() && strings.HasSuffix(file.Name(), ".so") {
 			registry.AddPlugin(file.Name())
 		}
+	}
+}
+
+// InitializePlugins initializes all registered plugins by calling their RegisterRoutes method.
+func (registry *PluginRegistry) InitializePlugins(router common.Router) {
+	for _, plugin := range registry.Plugins {
+		plugin.RegisterRoutes(router)
 	}
 }
