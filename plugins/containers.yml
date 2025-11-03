@@ -1,14 +1,10 @@
+
 plugins:
-	- name: hello-node
-		base_url: http://plugin-hello-node:8081
-		routes:
-			- path: /hello
-				method: GET
-				proxy: /hello
-	- name: bye-py
-		base_url: http://plugin-bye-py:8082
-		routes:
-			- path: /bye
-				method: GET
-				proxy: /bye
+  - name: hello-node
+    base_url: http://plugin-hello-node:8081
+    route: /hello
+
+  - name: bye-py
+    base_url: http://plugin-bye-py:8082
+    route: /bye
 

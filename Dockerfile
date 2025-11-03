@@ -18,6 +18,8 @@ RUN apk add --no-cache ca-certificates
 
 # Copy binary from builder
 COPY --from=builder /bin/server /usr/local/bin/server
+# Copy container plugins manifest into final image so the running binary can discover container plugins
+COPY --from=builder /src/plugins/containers.yml /src/plugins/containers.yml
 
 ENV PORT=8080
 EXPOSE 8080
