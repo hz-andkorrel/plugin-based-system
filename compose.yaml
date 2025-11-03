@@ -14,6 +14,27 @@ services:
       target: final
     ports:
       - 8080:8080
+    depends_on:
+      - plugin-hello-node
+      - plugin-bye-py
+
+  plugin-hello-node:
+    build:
+      context: ./plugins/templates/node
+    image: plugin-hello-node:local
+    environment:
+      - PORT=8081
+    ports:
+      - 8081:8081
+
+  plugin-bye-py:
+    build:
+      context: ./plugins/templates/python
+    image: plugin-bye-py:local
+    environment:
+      - PORT=8082
+    ports:
+      - 8082:8082
 
 # The commented out section below is an example of how to define a PostgreSQL
 # database that your application can use. `depends_on` tells Docker Compose to
