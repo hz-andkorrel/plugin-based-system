@@ -1,12 +1,19 @@
 package main
 
 import (
-    "fmt"
+	"plugins/common"
 
-    "plugins/class/common"
+	"github.com/gin-gonic/gin"
 )
 
-func SayHello(student common.Student) {
-    fmt.Println(student.GetNumber(), student.GetName())
+type Plugin struct{}
+
+func NewPlugin() common.Plugin {
+	return &Plugin{}
 }
 
+func (plugin *Plugin) RegisterRoutes(router common.Router) {
+	router.AddGetRoute("/hello", func(context *gin.Context) {
+		context.String(200, "Hello from Plugin!")
+	})
+}
