@@ -12,7 +12,7 @@ type Bus struct {
 
 // NewBus creates a new instance of the event bus.
 // An empty map of subscribers is initialized to keep track of event subscriptions.
-func NewBus() *Bus {
+func NewBus() common.Bus {
 	return &Bus{
 		subscribers: make(map[string][]common.Handler),
 	}
@@ -26,6 +26,6 @@ func (bus *Bus) Subscribe(eventName string, handler common.Handler) {
 // Publish allows a plugin to publish an event to all subscribers of that event.
 func (bus *Bus) Publish(event common.Event) {
 	for _, handler := range bus.subscribers[event.Name] {
-		go handler(event)
+		handler(event)
 	}
 }

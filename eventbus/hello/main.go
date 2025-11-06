@@ -7,8 +7,15 @@ import (
 
 type Plugin struct{}
 
+func NewPlugin() common.Plugin {
+	return &Plugin{}
+}
+
 func (plugin *Plugin) Initialize(bus common.Bus) {
-	bus.Subscribe("hello", plugin.Hello)
+	bus.Subscribe("hello", func(event common.Event) {
+		fmt.Println("Hello from anonymous function!")
+	})
+
 	bus.Subscribe("plugins", plugin.Name)
 }
 

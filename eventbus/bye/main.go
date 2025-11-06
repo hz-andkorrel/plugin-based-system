@@ -7,6 +7,10 @@ import (
 
 type Plugin struct{}
 
+func NewPlugin() common.Plugin {
+	return &Plugin{}
+}
+
 func (plugin *Plugin) Initialize(bus common.Bus) {
 	bus.Subscribe("bye", plugin.Bye)
 	bus.Subscribe("plugins", plugin.Name)
