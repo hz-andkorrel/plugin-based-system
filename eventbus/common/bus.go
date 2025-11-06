@@ -1,4 +1,4 @@
-package domain
+package common
 
 // The Bus structure represents the event bus.
 // Plugins can subscribe to events and publish events to notify subscribers.
