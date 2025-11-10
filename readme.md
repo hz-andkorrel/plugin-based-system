@@ -51,3 +51,21 @@ Both can use this interface to exchange Student data.
 Extended on this principle, a common plugin interface can be defined that all plugins need to implement.
 This way, the app can load any plugin that implements this interface.
 
+
+## Implementing go-plugings through an event bus
+
+Another approach to creating a plugin system is through an event bus.
+The architecture of the application is similar to the previous example.
+The difference being the broker pattern being replaced by an event bus.
+The event bus allows for communication between the app and the plugins through events.
+Events are strings that are registered on the bus.
+Plugins can subscribe to events and publish events.
+
+Compared to the broker pattern, this approach is more flexible.
+Plugins can subscribe to multiple events and publish events that other plugins can listen to.
+This allows for a more dynamic interaction between the app and the plugins.
+However, this approach also has its downsides.
+The main issue is the lack of type safety.
+Events are identified by strings, which can lead to errors if the event names are not consistent.
+Additionally, logging and debugging can be more challenging due to the asynchronous nature of event-driven systems.
+
