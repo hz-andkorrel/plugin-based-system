@@ -17,9 +17,6 @@ func main() {
 
 	registry := domain.NewPluginRegistry()
 
-	// Legacy .so discovery
-	registry.AutoDiscoverPlugins()
-
 	// Load containerized plugin manifest if present. Check multiple locations and support an env override.
 	manifestPath := os.Getenv("PLUGINS_MANIFEST")
 	if manifestPath == "" {

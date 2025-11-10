@@ -22,6 +22,11 @@ func (manager *RouteManager) AddGetRoute(path string, handler func(c *gin.Contex
 	manager.router.GET(path, handler)
 }
 
+// AddPostRoute adds a new POST route to the routing table.
+func (manager *RouteManager) AddPostRoute(path string, handler func(c *gin.Context)) {
+	manager.router.POST(path, handler)
+}
+
 // Run starts the HTTP server on the specified port.
 func (manager *RouteManager) Run(port string) {
 	manager.router.Run(port)
