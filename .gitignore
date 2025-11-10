@@ -1,1 +1,2 @@
-
+# .so files are compiled plugins for Go.
+*.so
