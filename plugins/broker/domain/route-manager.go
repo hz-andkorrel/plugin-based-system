@@ -17,9 +17,9 @@ func NewRouteManager() common.Router {
 	}
 }
 
-// AddPostRoute adds a new POST route to the routing table.
-func (manager *RouteManager) AddPostRoute(path string, handler func(c *gin.Context)) {
-	manager.router.POST(path, handler)
+// AddGetRoute adds a new GET route to the routing table.
+func (manager *RouteManager) AddGetRoute(path string, handler func(c *gin.Context)) {
+	manager.router.GET(path, handler)
 }
 
 // Run starts the HTTP server on the specified port.
