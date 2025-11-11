@@ -17,11 +17,6 @@ func NewRouteManager() common.Router {
 	}
 }
 
-// AddGetRoute adds a new GET route to the routing table.
-func (manager *RouteManager) AddGetRoute(path string, handler func(c *gin.Context)) {
-	manager.router.GET(path, handler)
-}
-
 // AddPostRoute adds a new POST route to the routing table.
 func (manager *RouteManager) AddPostRoute(path string, handler func(c *gin.Context)) {
 	manager.router.POST(path, handler)
