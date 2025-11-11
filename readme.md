@@ -69,3 +69,16 @@ The main issue is the lack of type safety.
 Events are identified by strings, which can lead to errors if the event names are not consistent.
 Additionally, logging and debugging can be more challenging due to the asynchronous nature of event-driven systems.
 
+### Dockerized broker
+
+This repository also contains a lightweight, Docker-friendly broker that treats plugins as independent HTTP services which self-register with the broker at POST /plugins/register. The dockerized subtree contains compose files, example plugin templates and an on-disk manifest (`dockerized/containers.yml`) that the broker reads and updates.
+
+Quick start:
+
+```bash
+docker compose -f dockerized/compose.yaml up --build
+```
+
+Running plugins as containers has clear benefits: it removes language coupling, gives process isolation so a misbehaving plugin won't bring down the broker, and lets each plugin be deployed, scaled and observed independently with standard container tooling. At the same time this approach adds operational complexity — networking, health checks and keeping the plugin manifest durable — and introduces extra latency compared with in-process `.so` plugins.
+
+In production this registration approach is fragile and potentially unsafe: duplicate or concurrent registrations can corrupt the manifest or leave the broker in an inconsistent state. Leaving the registration endpoint open is a serious security risk, and the simple demo proxy is not reliable enough for real traffic — it can drop or misroute requests and offers poor observability. Treat the demo components as examples only; they are not production-ready.
