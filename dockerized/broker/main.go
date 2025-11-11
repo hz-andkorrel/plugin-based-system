@@ -4,18 +4,14 @@ import (
 	"fmt"
 	"os"
 	"plugins/broker/domain"
+	"plugins/common"
 )
 
-// The entry point of the application.
-// It uses the PluginRegistry to load and interact with plugins.
-// First, the router and plugin registry are created.
-// The plugins are auto-discovered from the plugins directory before being initialized.
-// Additionally, if a containers manifest exists it will be loaded and registered.
-// Finally, the router is started to listen for incoming requests.
+// Entry point for dockerized broker. Uses a simple slice for plugins instead of a registry type.
 func main() {
 	router := domain.NewRouteManager()
 
-	registry := domain.NewPluginRegistry()
+	var registry []common.Plugin
 
 	// Load containerized plugin manifest if present. Check multiple locations and support an env override.
 	manifestPath := os.Getenv("PLUGINS_MANIFEST")
@@ -30,15 +26,21 @@ func main() {
 
 	if _, err := os.Stat(manifestPath); err == nil {
 		if containerPlugins, err := domain.LoadContainerPlugins(manifestPath); err == nil {
-			// append loaded container plugins to registry
-			registry.Plugins = append(registry.Plugins, containerPlugins...)
+			// append loaded container plugins to registry slice
+			registry = append(registry, containerPlugins...)
 			fmt.Println("Loaded container plugins from", manifestPath)
 		} else {
 			fmt.Println("Failed to load container plugins from", manifestPath, ":", err)
 		}
 	}
 
-	registry.InitializePlugins(router)
+	// Initialize plugins by registering their routes on the router.
+	for _, p := range registry {
+		p.RegisterRoutes(router)
+	}
+
+	// Expose admin registration route which appends to the registry slice.
+	domain.RegisterAdminRoutes(&registry, router)
 
 	router.Run(":8080")
 }

@@ -3,8 +3,6 @@ package domain
 import "plugins/common"
 
 // PluginRegistry is a minimal registry used by the dockerized broker.
-// It intentionally omits legacy .so plugin discovery and only holds
-// an in-memory list of plugins (container-backed or otherwise).
 type PluginRegistry struct {
 	Plugins []common.Plugin
 }

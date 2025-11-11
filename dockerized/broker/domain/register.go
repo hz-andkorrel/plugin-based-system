@@ -22,12 +22,12 @@ type RegisterRequest struct {
 
 // persistContainerPlugins writes the currently registered container plugins to disk
 // at the path `dockerized/containers.yml` (relative to the dockerized broker domain).
-func persistContainerPlugins(path string, registry *PluginRegistry) error {
+func persistContainerPlugins(path string, registry *[]common.Plugin) error {
 	wrapper := struct {
 		Plugins []ContainerPlugin `yaml:"plugins"`
 	}{Plugins: []ContainerPlugin{}}
 
-	for _, p := range registry.Plugins {
+	for _, p := range *registry {
 		if cp, ok := p.(*ContainerPlugin); ok {
 			wrapper.Plugins = append(wrapper.Plugins, *cp)
 		}
@@ -46,8 +46,8 @@ func persistContainerPlugins(path string, registry *PluginRegistry) error {
 }
 
 // RegisterAdminRoutes installs the registration endpoint on the provided router.
-// It uses the given registry to append container plugins on successful registration.
-func RegisterAdminRoutes(registry *PluginRegistry, router common.Router) {
+// It uses the given registry slice to append container plugins on successful registration.
+func RegisterAdminRoutes(registry *[]common.Plugin, router common.Router) {
 	router.AddPostRoute("/plugins/register", func(c *gin.Context) {
 		var req RegisterRequest
 		if err := c.BindJSON(&req); err != nil {
@@ -66,7 +66,8 @@ func RegisterAdminRoutes(registry *PluginRegistry, router common.Router) {
 			Route:   req.Route,
 		}
 
-		registry.Plugins = append(registry.Plugins, cp)
+		// append to slice
+		*registry = append(*registry, cp)
 		cp.RegisterRoutes(router)
 
 		// persist to dockerized manifest (best-effort)
